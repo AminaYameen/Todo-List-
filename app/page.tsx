@@ -1,53 +1,53 @@
-'use client';
+"use client";
 import React, { useState, useEffect } from "react";
 
 export default function TodoList() {
-  const [todos, setTodos] = useState([]);
-  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState<string[]>([]);
+  const [task, setTask] = useState<string>("");
 
-  // Load saved todos from localStorage when page loads
+  
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
     if (savedTodos) {
-      setTodos(JSON.parse(savedTodos)); // Convert saved string back into array
+      setTodos(JSON.parse(savedTodos)); 
     }
   }, []);
 
-  // Save todos to localStorage whenever they change
+  
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos)); // Convert array to string
+    localStorage.setItem("todos", JSON.stringify(todos)); 
   }, [todos]);
 
   const addTodo = () => {
-    if (task.trim() === "") return; // Don't allow empty tasks
-    setTodos([...todos, task]); // Add new task to array
-    setTask(""); // Clear input box
+    if (task.trim() === "") return; 
+     setTodos((prevTodos) => [...prevTodos, task.trim()]); 
+    setTask("");
   };
 
-  const deleteTodo = (index) => {
+  const deleteTodo = (index: number) => {
     const updatedTodos = todos.filter((_, i) => i !== index);
     setTodos(updatedTodos);
   };
 
   return (
-    <div style={{ margin: "50px auto", width: "300px", textAlign: "center" }}>
-      <h2>Todo List</h2>
+    <div style={{ margin: "80px auto", width: "300px",textAlign: "center" }}>
+      <h1>Todo List</h1>
 
       <input
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
-        placeholder="Enter a task"
+        placeholder="Enter your  task"
       />
-      <button onClick={addTodo}>Add</button>
+      <button onClick={addTodo} style={{ margin: "10px 10px",backgroundColor: "Red",padding: "15px 15px",cursor: "pointer",border: "2px solid",color:"white"  }}>Add</button>
 
       <ul style={{ listStyle: "none", padding: 0 }}>
         {todos.map((todo, index) => (
-          <li key={index} style={{ margin: "8px 0" }}>
+          <li key={index} style={{ margin: "8px 0" ,backgroundColor:"#C5E2E6", borderBlockStyle:"solid" }}>
             {todo}
             <button
               onClick={() => deleteTodo(index)}
-              style={{ marginLeft: "10px" }}
+              style={{ marginLeft: "10px",backgroundColor:"white" }}
             >
               ❌
             </button>
